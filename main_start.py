@@ -7,12 +7,16 @@ service_account_path = ''
 spreadsheet_name = ''
 worksheet_name = ''
 item_report_files_paths = ["1", "2", "3"]
-shipment_data_files_paths = []
+shipment_data_files_paths = ["1", "2", "3"]
+scanned_tracking_path = ''
 
 while True:
     message = ("########## Dashboard ##########",
         "1.Data Files Paths Update",
-        "Item Report file path:{}".format(*item_report_files_paths, sep = ","),
+        "Current Item Report file path:",
+        "\n".join(item_report_files_paths),
+        "Current shipment_data_files_paths:",
+        "\n".join(shipment_data_files_paths),
         "2.Google Service Account Key Update.",
         "3.Spreadsheet and Worksheet Name Update")
     
