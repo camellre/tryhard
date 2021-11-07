@@ -7,7 +7,7 @@ def find_tracking(tracking_number_list = [], scanned_input = ''):
         return None
     else:
         try:
-            tracking_output = ''
+            tracking_output = 'Not Found!'
             scanned_input = scanned_input.upper()
             for i in range(len(tracking_number_list)):
                 if scanned_input in tracking_number_list[i]:
