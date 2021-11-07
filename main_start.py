@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from input_data import input_data
 from input_worksheet import input_worksheet
-from stock_update import stock_update
+from command_selection import command_selection
 
 #def main_start():  
 #Google service account key file path
@@ -33,19 +33,28 @@ filtered_data = input_data(item_report_files_paths, shipment_data_files_paths)
 work_sheet_daily = input_worksheet(service_account_path, spreadsheet_amazon_2021_name, 
     amazon_2021_daily_name)
 
-while True:
+def dashboard_display():
     message = ("########## Dashboard ##########",
         "1.Data Files Paths Update",
         "Current Item Report file path:",
         "\n".join(item_report_files_paths),
-        "Current shipment_data_files_paths:",
+        "\nCurrent shipment_data_files_paths:",
         "\n".join(shipment_data_files_paths),
-        "2.Google Service Account Key Update.",
-        "3.Spreadsheet and Worksheet Name Update")
+        "\n2.Google Service Account Key Update.",
+        "\n3.Spreadsheet and Worksheet Name Update")
     
     print(*message, sep = '\n')
-    command_selection_input = input("Please enter the command number:")
-    
+
+dashboard_display()
+
+while True:
+    command_input = input("Please enter the command selection number:")
+    if command_input == 'exit':
+        break
+    elif command_selection(command_input) == None:
+        continue
+    else:
+        command_selection(command_input)
 
 
 
