@@ -3,8 +3,10 @@ import numpy as np
 from input_data import input_data
 from input_worksheet import input_worksheet
 from command_selection import command_selection
+from dashboard_display import dashboard_display
 
 #def main_start():  
+
 #Google service account key file path
 service_account_path = '' 
 
@@ -33,19 +35,7 @@ filtered_data = input_data(item_report_files_paths, shipment_data_files_paths)
 work_sheet_daily = input_worksheet(service_account_path, spreadsheet_amazon_2021_name, 
     amazon_2021_daily_name)
 
-def dashboard_display():
-    message = ("########## Dashboard ##########",
-        "1.Data Files Paths Update",
-        "Current Item Report file path:",
-        "\n".join(item_report_files_paths),
-        "\nCurrent shipment_data_files_paths:",
-        "\n".join(shipment_data_files_paths),
-        "\n2.Google Service Account Key Update.",
-        "\n3.Spreadsheet and Worksheet Name Update")
-    
-    print(*message, sep = '\n')
-
-dashboard_display()
+dashboard_display(item_report_files_paths, shipment_data_files_paths)
 
 while True:
     command_input = input("Please enter the command selection number:")

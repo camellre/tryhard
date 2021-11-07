@@ -3,7 +3,8 @@ from stock_update import stock_update
 
 def command_selection(selection_input = ''):
     switchers = {
-        1: get_date,
+        4: stock_update,
+        5: get_date,
     }
     try:
         return switchers.get(int(selection_input))()
