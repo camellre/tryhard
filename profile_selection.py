@@ -12,7 +12,7 @@ class profile:
             self.g_service_key = profile.read_paths(profile.profile_paths[0])[0]
             self.item_file = profile.read_paths(profile.profile_paths[1])
             self.shipment_file = profile.read_paths(profile.profile_paths[2])
-            self.scanned_file = profile.read_paths(profile.profile_paths[3])
+            self.scanned_file = profile.profile_paths[3]
             self.spreadsheet_name = profile.read_paths(profile.profile_paths[0])[1]
             self.worksheet_name = profile.read_paths(profile.profile_paths[0])[2]
         except:
@@ -79,8 +79,3 @@ class profile:
                     break
                 else:
                     shipment_file_temp.append(shipment_file_input)
-                
-
-
-current_profile = profile()
-current_profile.paths_update('5')

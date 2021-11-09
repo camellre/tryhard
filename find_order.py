@@ -2,17 +2,10 @@ import pandas as pd
 import numpy as np
 from find_tracking import find_tracking
 
-def find_order(item_info, scanned_input = '', shipment_tracking_number_list = [], 
-        shipment_tracking_number = []):
+def find_order(item_info, shipment_tracking_number,scanned_input = '', shipment_tracking_number_list = []):
 
     if scanned_input == '':
         print("Input is empty.")
-        return None
-    elif shipment_tracking_number_list == []:
-        print("Shipment tracking number list data is empty.")
-        return None
-    elif shipment_tracking_number == []:
-        print("Shipment table data is empty.")
         return None
     else:
         tracking_number_input = find_tracking(shipment_tracking_number_list, scanned_input)
@@ -37,8 +30,8 @@ def find_order(item_info, scanned_input = '', shipment_tracking_number_list = []
                         output_gsheet_list = []
                         s_tracking_id = searched_data_tracking.loc[item, 'Order ID']
                         f_item_id = item_info.loc[i, 'Order ID']
-                        s_item_subtotal = int(float(searched_data_tracking.loc[item, 'Subtotal'][1:])*1000)
-                        f_item_price = int(float(item_info.loc[i, 'Purchase Price Per Unit'])*1000)
+                        s_item_subtotal = int(float(str(searched_data_tracking.loc[item, 'Subtotal'][1:]).replace(",", ''))*1000)
+                        f_item_price = int(float(str(item_info.loc[i, 'Purchase Price Per Unit']).replace(",", ""))*1000)
 
                         if s_tracking_id == f_item_id and s_item_subtotal % f_item_price == 0:
                             searched_data_list = item_info.loc[i, ['Order Date', 'Order ID', 'Title', 
