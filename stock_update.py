@@ -167,16 +167,16 @@ class stockupdate():
     @staticmethod
     def play_sound(numbers = '0', conditions = 'new', exceptions = 'none'):
         if exceptions == 'not_found':
-            file_exceptions = '/home/rory/Inventory-Management-main/audio-numbers/{}.mp3'.format(exceptions)
+            file_exceptions = '/home/rory/tryhard-main/audio-numbers/{}.mp3'.format(exceptions)
             os.system('mpg123 -q ' + file_exceptions)
         else:
             if conditions == 'new':
-                file_numbers = '/home/rory/Inventory-Management-main/audio-numbers/{}.mp3 '.format(numbers)
-                file_conditions = '/home/rory/Inventory-Management-main/audio-numbers/{}.mp3'.format(conditions)
+                file_numbers = '/home/rory/tryhard-main/audio-numbers/{}.mp3 '.format(numbers)
+                file_conditions = '/home/rory/tryhard-main/audio-numbers/{}.mp3'.format(conditions)
                 os.system('mpg123 -q ' + file_numbers + file_conditions)
             else:
-                file_numbers = '/home/rory/Inventory-Management-main/audio-numbers/{}.mp3 '.format(numbers)
-                file_conditions = '/home/rory/Inventory-Management-main/audio-numbers/{}.mp3'.format('used')
+                file_numbers = '/home/rory/tryhard-main/audio-numbers/{}.mp3 '.format(numbers)
+                file_conditions = '/home/rory/tryhard-main/audio-numbers/{}.mp3'.format('used')
                 os.system('mpg123 -q ' + file_numbers + file_conditions)
 
     def dashboard_display(self):
@@ -300,7 +300,7 @@ class stockupdate():
                     else:
                         self.scanned_tracking.append(a)
                         print("Not Found!")
-                        #play_sound(exceptions = 'not_found')
+                        stockupdate.play_sound(exceptions = 'not_found')
                         item_title = input("Please enter the item name or UPC code:")
                         item_quantity = input("Please enter the item quantity:")
                         self.worksheet_content.update_value('D{}'.format(row), item_title)
@@ -317,7 +317,7 @@ class stockupdate():
                     else:
                         self.scanned_tracking.append(a)
                         print("Tracking number is not valid or order is too old.")
-                        #play_sound(exceptions = 'not_found')
+                        stockupdate.play_sound(exceptions = 'not_found')
                         item_title = input("Please enter the item name or UPC code:")
                         item_quantity = input("Please enter the item quantity:")
                         self.worksheet_content.update_value('D{}'.format(row), item_title)
@@ -335,7 +335,7 @@ class stockupdate():
                         self.scanned_tracking.append(a)
                         print(*b)
                         for i in range(len(b)):
-                            #play_sound(numbers = str(b[i][8]), conditions = str(b[i][4]))
+                            stockupdate.play_sound(numbers = str(b[i][8]), conditions = str(b[i][4]))
                             self.worksheet_content.update_value('A{}'.format(row), get_date())
                             self.worksheet_content.update_row(row, b[i], col_offset=1)
                             row += 1
