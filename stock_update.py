@@ -318,6 +318,10 @@ class stockupdate():
                         self.scanned_tracking.append(a)
                         print("Tracking number is not valid or order is too old.")
                         #play_sound(exceptions = 'not_found')
+                        item_title = input("Please enter the item name or UPC code:")
+                        item_quantity = input("Please enter the item quantity:")
+                        self.worksheet_content.update_value('D{}'.format(row), item_title)
+                        self.worksheet_content.update_value('J{}'.format(row), item_quantity)
                         self.worksheet_content.update_value('A{}'.format(row), get_date())
                         self.worksheet_content.update_value('L{}'.format(row), a)
                         row += 1
