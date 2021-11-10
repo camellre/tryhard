@@ -6,21 +6,7 @@ def main_start():
     while True:
         if a.initiation == "yes":
             print("Data files are empty, initiation is needed.")
-            while True:
-                initiation_input_message = ('1.Google Service Account key path',
-                    "2.Spreadsheet name",
-                    "3.Worksheet name",
-                    "4.item report file paths",
-                    "5.shipment report file paths")
-                print(*initiation_input_message)
-                initiation_input = input("Please enter the command selection number:")
-                if initiation_input == "exit":
-                    break
-                elif initiation_input not in ["1", "2", "3", "4", "5"]:
-                    print("Selection is not valid.")
-                    continue
-                else:
-                    a.paths_update()
+            a.paths_update()
             a = stockupdate()
         else:
             break
@@ -40,6 +26,7 @@ def main_start():
             print(get_date())
         elif command_input == '1':
             a.paths_update()
+            a = stockupdate()
         elif command_input == 'db':
             a.dashboard_display()
 

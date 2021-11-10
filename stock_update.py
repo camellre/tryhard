@@ -60,46 +60,56 @@ class stockupdate():
                 output_file.write(item + '\n')
     
     def paths_update(self):
-        selection = input("Please enter selection:")
-        if selection not in ["1", "2", "3", "4", "5"]:
-            print("Selection is not valid.")
-            return None
-        elif selection == '1':
-            self.g_service_key = input("Please enter new google service account key:")
-            output_temp_1 = [self.g_service_key, self.spreadsheet_name, self.worksheet_name]
-            stockupdate.file_update(output_temp_1, stockupdate.paths[0])
-        elif selection == '2':
-            self.spreadsheet_name = input("Please enter new spreadsheet name:")
-            output_temp_2 = [self.g_service_key, self.spreadsheet_name, self.worksheet_name]
-            stockupdate.file_update(output_temp_2, stockupdate.paths[0])
-        elif selection == '3':
-            self.worksheet_name = input("Please enter new worksheet name:")
-            output_temp_3 = [self.g_service_key, self.spreadsheet_name, self.worksheet_name]
-            stockupdate.file_update(output_temp_3, stockupdate.paths[0])
-        elif selection == '4':
-            item_file_temp = []
-            while True:
-                item_file_input = input ("Please enter new item report file paths:")
-                if item_file_input == "exit" and item_file_temp == []:
-                    break
-                elif item_file_input == "exit" and item_file_temp != []:
-                    self.item_file = item_file_temp
-                    stockupdate.file_update(self.item_file, stockupdate.paths[1])
-                    break
-                else:
-                    item_file_temp.append(item_file_input)
-        elif selection == '5':
-            shipment_file_temp = []
-            while True:
-                shipment_file_input = input ("Please enter new shipment report file paths:")
-                if shipment_file_input == "exit" and shipment_file_temp == []:
-                    break
-                elif shipment_file_input == "exit" and shipment_file_temp != []:
-                    self.shipment_file = shipment_file_temp
-                    stockupdate.file_update(self.shipment_file, stockupdate.paths[2])
-                    break
-                else:
-                    shipment_file_temp.append(shipment_file_input)
+        while True:
+            initiation_input_message = ('1.Google Service Account key path',
+                "\n2.Spreadsheet name",
+                "\n3.Worksheet name",
+                "\n4.item report file paths",
+                "\n5.shipment report file paths")
+            print(*initiation_input_message)
+            selection = input("Please enter the command selection number:")
+            if selection == "exit":
+                break
+            elif selection not in ["1", "2", "3", "4", "5"]:
+                print("Selection is not valid.")
+                continue
+            else:
+                if selection == '1':
+                    self.g_service_key = input("Please enter new google service account key:")
+                    output_temp_1 = [self.g_service_key, self.spreadsheet_name, self.worksheet_name]
+                    stockupdate.file_update(output_temp_1, stockupdate.paths[0])
+                elif selection == '2':
+                    self.spreadsheet_name = input("Please enter new spreadsheet name:")
+                    output_temp_2 = [self.g_service_key, self.spreadsheet_name, self.worksheet_name]
+                    stockupdate.file_update(output_temp_2, stockupdate.paths[0])
+                elif selection == '3':
+                    self.worksheet_name = input("Please enter new worksheet name:")
+                    output_temp_3 = [self.g_service_key, self.spreadsheet_name, self.worksheet_name]
+                    stockupdate.file_update(output_temp_3, stockupdate.paths[0])
+                elif selection == '4':
+                    item_file_temp = []
+                    while True:
+                        item_file_input = input ("Please enter new item report file paths:")
+                        if item_file_input == "exit" and item_file_temp == []:
+                            break
+                        elif item_file_input == "exit" and item_file_temp != []:
+                            self.item_file = item_file_temp
+                            stockupdate.file_update(self.item_file, stockupdate.paths[1])
+                            break
+                        else:
+                            item_file_temp.append(item_file_input)
+                elif selection == '5':
+                    shipment_file_temp = []
+                    while True:
+                        shipment_file_input = input ("Please enter new shipment report file paths:")
+                        if shipment_file_input == "exit" and shipment_file_temp == []:
+                            break
+                        elif shipment_file_input == "exit" and shipment_file_temp != []:
+                            self.shipment_file = shipment_file_temp
+                            stockupdate.file_update(self.shipment_file, stockupdate.paths[2])
+                            break
+                        else:
+                            shipment_file_temp.append(shipment_file_input)
 
     @staticmethod
     def input_worksheet(service_account_path = '', spreadsheet_name = '', worksheet_name = ''):
@@ -291,8 +301,12 @@ class stockupdate():
                         self.scanned_tracking.append(a)
                         print("Not Found!")
                         #play_sound(exceptions = 'not_found')
+                        item_title = input("Please enter the item name or UPC code:")
+                        item_quantity = input("Please enter the item quantity:")
+                        self.worksheet_content.update_value('D{}'.format(row), item_title)
+                        self.worksheet_content.update_value('J{}'.format(row), item_quantity)
                         self.worksheet_content.update_value('A{}'.format(row), get_date())
-                        self.worksheet_content.update_value('K{}'.format(row), a)
+                        self.worksheet_content.update_value('L{}'.format(row), a)
                         row += 1
                         continue
                     
@@ -305,7 +319,7 @@ class stockupdate():
                         print("Tracking number is not valid or order is too old.")
                         #play_sound(exceptions = 'not_found')
                         self.worksheet_content.update_value('A{}'.format(row), get_date())
-                        self.worksheet_content.update_value('K{}'.format(row), a)
+                        self.worksheet_content.update_value('L{}'.format(row), a)
                         row += 1
                         continue
 
