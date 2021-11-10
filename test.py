@@ -3,6 +3,8 @@ import numpy as np
 import openpyxl
 import pygsheets
 
+from input_worksheet import input_worksheet
+
 class stockupdate():
     paths = (
         '/home/rory/.tryhard_profile/profile.txt',
@@ -18,14 +20,16 @@ class stockupdate():
             self.scanned_file = stockupdate.paths[3]
             self.spreadsheet_name = stockupdate.read_paths(stockupdate.paths[0])[1]
             self.worksheet_name = stockupdate.read_paths(stockupdate.paths[0])[2]
+            self.worksheet_content = stockupdate.input_worksheet(self.g_service_key, self.spreadsheet_name, self.worksheet_name)
         except:
-            print("The file paths are empty, please enter file paths.")
+            print("One of the file paths are empty or not valid, please check file paths and contents.")
             self.g_service_key = ''
             self.item_file = []
             self.shipment_file = []
             self.scanned_file = stockupdate.paths[3]
             self.spreadsheet_name = ''
             self.worksheet_name = ''
+            self.worksheet_content = ''
 
     @staticmethod
     def read_paths(file_path):
@@ -89,4 +93,27 @@ class stockupdate():
                 else:
                     shipment_file_temp.append(shipment_file_input)
 
+    @staticmethod
+    def input_worksheet(service_account_path = '', spreadsheet_name = '', worksheet_name = ''):
+        if service_account_path == '':
+            print("Google service account key is empty.")
+            return None
+        elif spreadsheet_name == '':
+            print("Spreadsheet name is empty.")
+            return None
+        elif worksheet_name == '':
+            print("Worksheet name is empty.")
+            return None
+        else:
+            try:
+                gc = pygsheets.authorize(service_file=service_account_path)
+                spread_sheet = gc.open(spreadsheet_name)
+                work_sheet = spread_sheet.worksheet_by_title(worksheet_name)
+            except:
+                print("The spreadsheet can not import, please check the service account key, spreadsheet_name, or worksheet_name.")
+                return None
+            else:
+                return work_sheet
+
 a = stockupdate()
+print(type(a.worksheet_content))
