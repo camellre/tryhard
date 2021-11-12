@@ -264,6 +264,7 @@ class stockupdate():
                                 output_gsheet_list = output_gsheet[i]
                                 output_gsheet_list = list(map(str, output_gsheet_list))
                             output_gsheet_list_combined.append(output_gsheet_list)
+                            break
             except:
                 print("Item or shipments data are not valid.")
                 return None
@@ -298,34 +299,46 @@ class stockupdate():
                         print('Already scanned.')
                         continue
                     else:
-                        self.scanned_tracking.append(a)
                         print("Not Found!")
                         stockupdate.play_sound(exceptions = 'not_found')
                         item_title = input("Please enter the item name or UPC code:")
-                        item_quantity = input("Please enter the item quantity:")
-                        self.worksheet_content.update_value('D{}'.format(row), item_title)
-                        self.worksheet_content.update_value('J{}'.format(row), item_quantity)
-                        self.worksheet_content.update_value('A{}'.format(row), get_date())
-                        self.worksheet_content.update_value('L{}'.format(row), a)
-                        row += 1
-                        continue
+                        if item_title in ["b", "B"]:
+                            continue
+                        else:
+                            item_quantity = input("Please enter the item quantity:")
+                            if item_quantity in ["b", "B"]:
+                                continue
+                            else:
+                                self.scanned_tracking.append(a)
+                                self.worksheet_content.update_value('D{}'.format(row), item_title)
+                                self.worksheet_content.update_value('J{}'.format(row), item_quantity)
+                                self.worksheet_content.update_value('A{}'.format(row), get_date())
+                                self.worksheet_content.update_value('L{}'.format(row), a)
+                                row += 1
+                                continue
                     
                 elif b == []:
                     if a in self.scanned_tracking:
                         print('Already scanned.')
                         continue
                     else:
-                        self.scanned_tracking.append(a)
                         print("Tracking number is not valid or order is too old.")
                         stockupdate.play_sound(exceptions = 'not_found')
                         item_title = input("Please enter the item name or UPC code:")
-                        item_quantity = input("Please enter the item quantity:")
-                        self.worksheet_content.update_value('D{}'.format(row), item_title)
-                        self.worksheet_content.update_value('J{}'.format(row), item_quantity)
-                        self.worksheet_content.update_value('A{}'.format(row), get_date())
-                        self.worksheet_content.update_value('L{}'.format(row), a)
-                        row += 1
-                        continue
+                        if item_title in ["b", "B"]:
+                            continue
+                        else:
+                            item_quantity = input("Please enter the item quantity:")
+                            if item_quantity in ["b", "B"]:
+                                continue
+                            else:
+                                self.scanned_tracking.append(a)
+                                self.worksheet_content.update_value('D{}'.format(row), item_title)
+                                self.worksheet_content.update_value('J{}'.format(row), item_quantity)
+                                self.worksheet_content.update_value('A{}'.format(row), get_date())
+                                self.worksheet_content.update_value('L{}'.format(row), a)
+                                row += 1
+                                continue
 
                 else:
                     if a in self.scanned_tracking:
