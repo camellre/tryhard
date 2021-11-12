@@ -30,5 +30,4 @@ def main_start():
         elif command_input == 'db':
             a.dashboard_display()
 
-
 main_start()
