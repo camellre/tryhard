@@ -180,20 +180,11 @@ class stockupdate():
                 os.system('mpg123 -q ' + file_numbers + file_conditions)
 
     def dashboard_display(self):
-        message = ("########################## Dashboard ##########################",
-            "\nCurrent Item Report file path:",
-            "\n".join(self.item_file),
-            "\nCurrent shipment_data_files_paths:",
-            "\n".join(self.shipment_file),
-            "\nCurrent Google Service Account Key:",
-            self.g_service_key,
-            "\nCurrent Spreadsheet and Worksheet Name:",
-            self.spreadsheet_name,
-            self.worksheet_name,
-            "\n1.Data Files Paths, Google Service Account Key, and Spreadsheet and Worksheet Name Update",
-            "2.Daily Incoming Stock Update.",
-            "3.Show the date of today.",
-            "4.Search Tracking for Order.")
+        message = ("################################################ 主菜单 ################################################",
+            "\n                                       1.Google账户及表格名称设置",
+            "                                                 2.每日入库",
+            "                                               3.显示今天日期",
+            "                                                 4.查询订单")
         
         print(*message, sep = '\n')
 
