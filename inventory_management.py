@@ -30,28 +30,28 @@ class management_tools():
     @staticmethod
     def play_sound(numbers = '0', conditions = 'new', exceptions = 'none'):
         if exceptions == 'not_found':
-            file_exceptions = '/home/rory/tryhard-main/audio-numbers/{}.mp3'.format(exceptions)
+            file_exceptions = '/home/rory/tryhard/data-files/audio-numbers/{}.mp3'.format(exceptions)
             os.system('mpg123 -q ' + file_exceptions)
         else:
             if conditions == 'new':
-                file_numbers = '/home/rory/tryhard-main/audio-numbers/{}.mp3 '.format(numbers)
-                file_conditions = '/home/rory/tryhard-main/audio-numbers/{}.mp3'.format(conditions)
+                file_numbers = '/home/rory/tryhard/data-files/audio-numbers/{}.mp3 '.format(numbers)
+                file_conditions = '/home/rory/tryhard/data-files/audio-numbers/{}.mp3'.format(conditions)
                 os.system('mpg123 -q ' + file_numbers + file_conditions)
             else:
-                file_numbers = '/home/rory/tryhard-main/audio-numbers/{}.mp3 '.format(numbers)
-                file_conditions = '/home/rory/tryhard-main/audio-numbers/{}.mp3'.format('used')
+                file_numbers = '/home/rory/tryhard/data-files/audio-numbers/{}.mp3 '.format(numbers)
+                file_conditions = '/home/rory/tryhard/data-files/audio-numbers/{}.mp3'.format('used')
                 os.system('mpg123 -q ' + file_numbers + file_conditions)
 
     @staticmethod
     def outbound_confirmed():
         while True:
-            input = ("\n请确认产品是否可以直接发货（封条是否完好，产品是否为新的）（ y / n）？")
-            if input not in ("Y", "y", "N", "n"):
+            input_0 = input("\n请确认产品是否可以直接发货（封条是否完好，产品是否为新的）（ y / n）？")
+            if input_0 not in ("Y", "y", "N", "n"):
                 print("\n输入无效，请重新输入。")
                 continue
-            elif input in ("Y", "y"):
+            elif input_0 in ("Y", "y"):
                 return "yes"
-            elif input in ("N", "n"):
+            elif input_0 in ("N", "n"):
                 return "no"
 
 class stockupdate():
@@ -83,6 +83,7 @@ class stockupdate():
             self.order_shipments_sheetname = ""
             self.stock_spreadsheet_name = ""
             self.stock_worksheet_name = ""
+            self.stock_update_row = ""
             self.initiation = 'yes'
     
     def get_scanned(self):
@@ -101,8 +102,8 @@ class stockupdate():
         message = ("############################################# 主菜单 #############################################",
             "\n                                         1.Google账户及表格名称设置",
             "                                         2.每日入库",
-            "                                         3.显示今天日期",
-            "                                         4.查询订单")
+            "                                         3.显示今天日期"
+            )
         
         print(*message, sep = '\n')
 
@@ -133,8 +134,9 @@ class stockupdate():
             "                                5.入库表格Google Sheet名称（SpreadSheet Name）",
             "                                6.入库表格Work Sheet名称（WorkSheet Name）",
             "                                7.更新起始表格行号码（Beginning Row Number）")
-        print(*mg, sep = '\n')
+        
         while True:
+            print(*mg, sep = '\n')
             selection = input("\n请输入选项号码:")
             if selection in ["q", "Q"]:
                 break
@@ -214,7 +216,7 @@ class stockupdate():
                     s_tracking_id = searched_data_tracking.loc[item, 'Order ID']
                     f_item_id = self.item_filtered.loc[i, 'Order ID']
                     s_item_subtotal = int(float(str(searched_data_tracking.loc[item, 'Subtotal'][1:]).replace(",", ''))*1000)
-                    f_item_price = int(float(str(self.item_filtered.loc[i, 'Purchase Price Per Unit']).replace(",", ""))*1000)
+                    f_item_price = int(float(str(self.item_filtered.loc[i, 'Purchase Price Per Unit'][1:]).replace(",", ""))*1000)
 
                     if s_tracking_id == f_item_id and s_item_subtotal % f_item_price == 0:
                         searched_data_list = self.item_filtered.loc[i, ['Order Date', 'Order ID', 'Title', 
@@ -237,9 +239,9 @@ class stockupdate():
         mgs = ("############################################ 每日入库 ############################################",
                 "\n                                       1.扫描Tracking入库",
                 "                                       2.更新起始表格行号码")
-        print(*mgs, sep = '\n')
-
+        
         while True:
+            print(*mgs, sep = '\n')
             selection = input("\n请输入选项号码:")
             if selection in ["q", "Q"]:
                 break
@@ -260,7 +262,7 @@ class stockupdate():
         
         while True:
             row = int(self.stock_update_row)
-            a = input('\n请扫描或输入快递单号（手动输入至少8位以上）:')
+            a = input('\n请扫描或输入快递单号（手动输入至少8位以上，按“q”键退出）:')
             a = a.upper()
 
             if a == 'Q':
@@ -276,7 +278,7 @@ class stockupdate():
                         continue
                     else:
                         print("\n未查询到快递单号记录！需要手动录入产品信息。")
-                        stockupdate.play_sound(exceptions = 'not_found')
+                        management_tools.play_sound(exceptions = 'not_found')
                         item_title = input("\n请输入或扫描产品UPC码，或者输入产品品牌和型号:")
                         if item_title in ["b", "B"]:
                             continue
@@ -309,7 +311,7 @@ class stockupdate():
                         continue
                     else:
                         print("\n未查询到快递单号记录！需要手动录入产品信息。")
-                        stockupdate.play_sound(exceptions = 'not_found')
+                        management_tools.play_sound(exceptions = 'not_found')
                         item_title = input("\n请输入或扫描产品UPC码，或者输入产品品牌和型号:")
                         if item_title in ["b", "B"]:
                             continue
@@ -344,7 +346,7 @@ class stockupdate():
                         self.scanned_tracking.append(a)
                         print(*b)
                         for i in range(len(b)):
-                            stockupdate.play_sound(numbers = str(b[i][8]), conditions = str(b[i][4]))
+                            management_tools.play_sound(numbers = str(b[i][8]), conditions = str(b[i][4]))
                             self.stock_update_sheet.update_value('A{}'.format(row), get_date())
                             self.stock_update_sheet.update_row(row, b[i], col_offset=1)
                             
