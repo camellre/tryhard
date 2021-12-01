@@ -307,7 +307,7 @@ class stockupdate():
                     
                 elif b == []:
                     if a in self.scanned_tracking:
-                        print('Already scanned.')
+                        print('\n该快递单号已录入，请扫描或输入下一个。')
                         continue
                     else:
                         print("\n未查询到快递单号记录！需要手动录入产品信息。")
