@@ -262,7 +262,7 @@ class stockupdate():
         
         while True:
             row = int(self.stock_update_row)
-            a = input('\n请扫描或输入快递单号（手动输入至少8位以上，按“q”键退出）:')
+            a = input('\n请扫描或输入快递单号（手动输入需要完整单号，按“q”键退出）:')
             a = a.upper()
 
             if a == 'Q':
@@ -271,6 +271,36 @@ class stockupdate():
                 print('\n输入不能为空，请重新输入。')
                 continue
             elif a != '' and a != 'Q':
+                item_title = input("\n请输入或扫描产品UPC码，或者输入产品品牌和型号:")
+                if item_title in ["b", "B"]:
+                    continue
+                else:
+                    item_quantity = input("\n请输入产品数量:")
+                    if item_quantity in ["b", "B"]:
+                        continue
+                    else:
+                        self.scanned_tracking.append(a)
+                        self.stock_update_sheet.update_value('B{}'.format(row), item_title)
+                        self.stock_update_sheet.update_value('C{}'.format(row), item_quantity)
+                        self.stock_update_sheet.update_value('A{}'.format(row), get_date())
+                        self.stock_update_sheet.update_value('D{}'.format(row), a)
+
+                        item_status = management_tools.outbound_confirmed()
+                        if item_status == "no":
+                            item_note = input("\n请输入该产品备注：")
+                            if item_quantity in ["b", "B"]:
+                                continue
+                            else:
+                                self.stock_update_sheet.update_value('E{}'.format(row), item_note)
+                                row += 1
+                                self.stock_update_row = str(row)
+                                continue
+                        else:
+                            row += 1
+                            self.stock_update_row = str(row)
+                            continue
+
+                """
                 b = self.find_order(a)
                 if b == "Not Found!":
                     if a in self.scanned_tracking:
@@ -361,7 +391,7 @@ class stockupdate():
                                 row += 1
                                 self.stock_update_row = str(row)
                                 continue
-
+                """
         with open(stockupdate.paths[1], 'w') as output_file:
             for item in self.scanned_tracking:
                 output_file.write(item + '\n')
